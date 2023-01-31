@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.Entity;
@@ -12,31 +11,27 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.AccessLevel;
 
 @Getter
 @Setter
 @Entity
 @NoArgsConstructor
-@Table(name = "orientador")
+@Table(name = "autor")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-public class Orientador {
+public class Autor {
     
-    public Orientador(String nome, String ra, String currLattes, String email) {
+    public Autor(String nome, String ra) {
         this.nome = nome;
         this.ra = ra;
-        this.currLattes = currLattes;
-        this.email = email;
-
-        this.ativo = true;
     }
 
     @Id
@@ -44,23 +39,14 @@ public class Orientador {
     @EqualsAndHashCode.Include
     @Setter(AccessLevel.PRIVATE) 
     private UUID id;
-
     private String nome;
     private String ra;
-    private String currLattes;
-    private String email;
 
-    @JsonIgnore
-    private Boolean ativo;
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "orientador")
-    private List<OrientadoresProjeto> projetos;
-
-    //@ManyToOne
-    //private Usuario usuario;
-
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "autores")
+    private List<Projeto> projetos;
+    
     @Override
     public String toString() {
-        return "{ id: " + id.toString() + ", nome: " + nome + ", ra: " + ra +  " }";
+        return "{ id: " + id.toString() + ", nome: " + nome + ", ra: " + ra + " }";
     }
 }

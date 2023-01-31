@@ -4,10 +4,12 @@ import br.com.bta.projic.enums.Linguagem;
 import br.com.bta.projic.enums.Modalidade;
 import br.com.bta.projic.enums.Status;
 import br.com.bta.projic.enums.TipoOrientador;
+import br.com.bta.projic.model.Autor;
 import br.com.bta.projic.model.Curso;
 import br.com.bta.projic.model.Orientador;
 import br.com.bta.projic.model.OrientadoresProjeto;
 import br.com.bta.projic.model.Projeto;
+import br.com.bta.projic.repository.AutorRepository;
 import br.com.bta.projic.repository.CursoRepository;
 import br.com.bta.projic.repository.OrientadorRepository;
 import br.com.bta.projic.repository.OrientadoresProjetoRepository;
@@ -15,6 +17,7 @@ import br.com.bta.projic.repository.ProjetoRepository;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,6 +43,9 @@ public class ProjicRunner implements CommandLineRunner {
     @Autowired
     private OrientadoresProjetoRepository orientadoresProjetoRepository;
 
+    @Autowired
+    private AutorRepository autorRepository;
+
     @Override
     public void run(String... args) throws Exception {
         var curso1 = new Curso("curso zica1", "cz1");
@@ -47,18 +53,26 @@ public class ProjicRunner implements CommandLineRunner {
         cursoRepository.save(curso1);
         cursoRepository.save(curso2);
         
+        var autor1 = new Autor("autor1", "123123123");
+        var autor2 = new Autor("autor2", "321321312");
+        autorRepository.save(autor1);
+        autorRepository.save(autor2);
+        var autores = new ArrayList<Autor>();
+        autores.add(autor1);
+        autores.add(autor2);
+
         var orientador1 = new Orientador("orientador1", "120983", "https://salve1.com/", "emai1@salve.com");
         var orientador2 = new Orientador("orientador2", "321233", "https://salve2.com/", "emai2@salve.com");
         orientadorRepository.save(orientador1);
         orientadorRepository.save(orientador2);
 
-        var proj1 = new Projeto("proj1", "proj1", "projeto zikaaa1", "projeto_zika1.pdf", 55, 10,    LocalDate.of(2022, 06, 01), LocalDateTime.of(2022,06,02, 16,0,0), "https://eae.com/eae1", "palavra1,palavra2,palavra3", Status.ACEITO, Linguagem.PT, Modalidade.ARTIGO_CIENTIFICO, curso1);
-        var proj2 = new Projeto("proj2", "proj2", "projeto zikaaa2", "projeto_zika2.pdf", 512, 25,   LocalDate.of(2022, 06, 01), LocalDateTime.of(2022,06,02, 16,0,0), "https://eae.com/eae2", "palavra1,palavra2,palavra3", Status.ACEITO, Linguagem.PT, Modalidade.ARTIGO_CIENTIFICO, curso2);
-        var proj3 = new Projeto("proj3", "proj3", "projeto zikaaa3", "projeto_zika3.pdf", 5, 1,      LocalDate.of(2022, 06, 01), LocalDateTime.of(2022,06,02, 16,0,0), "https://eae.com/eae3", "palavra1,palavra2,palavra3", Status.ACEITO, Linguagem.PT, Modalidade.ARTIGO_CIENTIFICO, curso1);
-        var proj4 = new Projeto("proj4", "proj4", "projeto zikaaa4", "projeto_zika4.pdf", 12, 0,     LocalDate.of(2022, 06, 01), LocalDateTime.of(2022,06,02, 16,0,0), "https://eae.com/eae4", "palavra1,palavra2,palavra3", Status.ACEITO, Linguagem.PT, Modalidade.ARTIGO_CIENTIFICO, curso2);
-        var proj5 = new Projeto("proj5", "proj5", "projeto zikaaa5", "projeto_zika5.pdf", 1, 0,      LocalDate.of(2022, 06, 01), LocalDateTime.of(2022,06,02, 16,0,0), "https://eae.com/eae5", "palavra1,palavra2,palavra3", Status.ACEITO, Linguagem.PT, Modalidade.ARTIGO_CIENTIFICO, curso1);
-        var proj6 = new Projeto("proj6", "proj6", "projeto zikaaa6", "projeto_zika6.pdf", 2090, 100, LocalDate.of(2022, 06, 01), LocalDateTime.of(2022,06,02, 16,0,0), "https://eae.com/eae6", "palavra1,palavra2,palavra3", Status.ACEITO, Linguagem.PT, Modalidade.ARTIGO_CIENTIFICO, curso2);
-        var proj7 = new Projeto("proj7", "proj7", "projeto zikaaa7", "projeto_zika7.pdf", 90, 10,    LocalDate.of(2022, 06, 01), LocalDateTime.of(2022,06,02, 16,0,0), "https://eae.com/eae7", "palavra1,palavra2,palavra3", Status.ACEITO, Linguagem.PT, Modalidade.ARTIGO_CIENTIFICO, curso1);
+        var proj1 = new Projeto("proj1", "proj1", "projeto zikaaa1", "projeto_zika1.pdf", 55, 10,    LocalDate.of(2022, 06, 01), LocalDateTime.of(2022,06,02, 16,0,0), "https://eae.com/eae1", "palavra1,palavra2,palavra3", Status.ACEITO, Linguagem.PT, Modalidade.ARTIGO_CIENTIFICO, curso1, autores);
+        var proj2 = new Projeto("proj2", "proj2", "projeto zikaaa2", "projeto_zika2.pdf", 512, 25,   LocalDate.of(2022, 06, 01), LocalDateTime.of(2022,06,02, 16,0,0), "https://eae.com/eae2", "palavra1,palavra2,palavra3", Status.ACEITO, Linguagem.PT, Modalidade.ARTIGO_CIENTIFICO, curso2, autores);
+        var proj3 = new Projeto("proj3", "proj3", "projeto zikaaa3", "projeto_zika3.pdf", 5, 1,      LocalDate.of(2022, 06, 01), LocalDateTime.of(2022,06,02, 16,0,0), "https://eae.com/eae3", "palavra1,palavra2,palavra3", Status.ACEITO, Linguagem.PT, Modalidade.ARTIGO_CIENTIFICO, curso1, autores);
+        var proj4 = new Projeto("proj4", "proj4", "projeto zikaaa4", "projeto_zika4.pdf", 12, 0,     LocalDate.of(2022, 06, 01), LocalDateTime.of(2022,06,02, 16,0,0), "https://eae.com/eae4", "palavra1,palavra2,palavra3", Status.ACEITO, Linguagem.PT, Modalidade.ARTIGO_CIENTIFICO, curso2, autores);
+        var proj5 = new Projeto("proj5", "proj5", "projeto zikaaa5", "projeto_zika5.pdf", 1, 0,      LocalDate.of(2022, 06, 01), LocalDateTime.of(2022,06,02, 16,0,0), "https://eae.com/eae5", "palavra1,palavra2,palavra3", Status.ACEITO, Linguagem.PT, Modalidade.ARTIGO_CIENTIFICO, curso1, autores);
+        var proj6 = new Projeto("proj6", "proj6", "projeto zikaaa6", "projeto_zika6.pdf", 2090, 100, LocalDate.of(2022, 06, 01), LocalDateTime.of(2022,06,02, 16,0,0), "https://eae.com/eae6", "palavra1,palavra2,palavra3", Status.ACEITO, Linguagem.PT, Modalidade.ARTIGO_CIENTIFICO, curso2, autores);
+        var proj7 = new Projeto("proj7", "proj7", "projeto zikaaa7", "projeto_zika7.pdf", 90, 10,    LocalDate.of(2022, 06, 01), LocalDateTime.of(2022,06,02, 16,0,0), "https://eae.com/eae7", "palavra1,palavra2,palavra3", Status.ACEITO, Linguagem.PT, Modalidade.ARTIGO_CIENTIFICO, curso1, autores);
         proj3.setAtivo(false);
         proj6.setAtivo(false);
         proj7.setAtivo(false);

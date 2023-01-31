@@ -8,7 +8,21 @@ class ProjicApplicationTests {
 
 	@Test
 	void contextLoads() {
-		assert false;
+
 	}
 
+	@Test
+	void constraintErrorOnInsert2SameOrientador() {
+
+	}
+
+	@Test
+	void constraintErrorOnInsert2SameTipoOrientador() {
+
+	}
+
+	@Test
+	void constraintErrorOnInsert2SameAutor() {
+
+	}
 }

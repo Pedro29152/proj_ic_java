@@ -13,6 +13,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import br.com.bta.projic.enums.Linguagem;
 import br.com.bta.projic.enums.Modalidade;
 import br.com.bta.projic.enums.Status;
+import br.com.bta.projic.serializer.Projeto_AutorSerializer;
 import br.com.bta.projic.serializer.Projeto_OrientadoresProjetoSerializer;
 import br.com.bta.projic.serializer.Projeto_PalavrasChaveSerializer;
 
@@ -21,6 +22,9 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -54,7 +58,8 @@ public class Projeto {
         Status status,
         Linguagem linguagem,
         Modalidade modalidade,
-        Curso curso
+        Curso curso,
+        List<Autor> autores
     ) {
         this.titulo = titulo;
         this.subtitulo = subtitulo;
@@ -72,8 +77,9 @@ public class Projeto {
         this.modalidade = modalidade;
 
         this.curso = curso;
+        this.autores = autores;
 
-        ativo = true;
+        this.ativo = true;
     }
     
     @Id
@@ -108,9 +114,17 @@ public class Projeto {
     @ManyToOne
     private Curso curso;
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+      name = "projeto_autor", 
+      joinColumns = @JoinColumn(name = "projetoId"), 
+      inverseJoinColumns = @JoinColumn(name = "autorId"))
+    @JsonSerialize(contentUsing = Projeto_AutorSerializer.class)
+    private List<Autor> autores;
+
     @Override
     public String toString() {
-        return "id: " + id.toString() + ", titulo: " + titulo;
+        return "{ id: " + id.toString() + ", titulo: " + titulo + " }";
     }
 }
 

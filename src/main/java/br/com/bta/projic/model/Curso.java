@@ -47,4 +47,9 @@ public class Curso {
 
     //@ManyToOne
     //Usuario usuario;
+
+    @Override
+    public String toString() {
+        return "{ id: " + id.toString() + ", abreviacao: " + abreviacao + " }";
+    }
 }
