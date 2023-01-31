@@ -14,6 +14,7 @@ import br.com.bta.projic.enums.Linguagem;
 import br.com.bta.projic.enums.Modalidade;
 import br.com.bta.projic.enums.Status;
 import br.com.bta.projic.serializer.Projeto_OrientadoresProjetoSerializer;
+import br.com.bta.projic.serializer.Projeto_PalavrasChaveSerializer;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -49,6 +50,7 @@ public class Projeto {
         LocalDate dataAvaliacao,
         LocalDateTime dataEnvio,
         String localPublicacao,
+        String palavrasChave,
         Status status,
         Linguagem linguagem,
         Modalidade modalidade,
@@ -63,6 +65,8 @@ public class Projeto {
         this.dataAvaliacao= dataAvaliacao;
         this.dataEnvio = dataEnvio;
         this.localPublicacao = localPublicacao;
+        this.palavrasChave = palavrasChave;
+
         this.status = status;
         this.linguagem = linguagem;
         this.modalidade = modalidade;
@@ -86,6 +90,9 @@ public class Projeto {
     private LocalDate dataAvaliacao;
     private LocalDateTime dataEnvio;
     private String localPublicacao;
+
+    @JsonSerialize(using =  Projeto_PalavrasChaveSerializer.class)
+    private String palavrasChave;
 
     private Status status;
     private Linguagem linguagem;
